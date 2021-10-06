@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
@@ -16,6 +17,7 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
 
     @PostMapping
     public Product novoProduto(@RequestParam Long id,
@@ -26,10 +28,7 @@ public class ProductController {
 
         Product produto = new Product(id, nome, valor, score, imagem);
 
-        //produtos.add(produto);
-
         productRepository.save(produto);
-        //System.out.println(produtos);
         return produto;
     }
 
@@ -37,6 +36,7 @@ public class ProductController {
     public Iterable<Product> obterProdutos(){
         return productRepository.findAll();
     }
+
     @GetMapping(path = "/pagina/{page}")
     public Iterable<Product> obterProdutosPorPagina(@PathVariable int page){
         Pageable pagina = PageRequest.of(page,5);
@@ -50,6 +50,19 @@ public class ProductController {
         return productRepository.findById(id);
     }
 
+    ArrayList<Optional<Product>> carrinho = new ArrayList<>();
 
+    @PostMapping(path = "/add/{id}")
+    public Optional<Product> addCarrinho(@PathVariable Long id){
+        Optional<Product> produto = obterProdutoId(id);
 
+        carrinho.add(produto);
+
+        return produto;
+    }
+
+    @GetMapping(path = "carrinho")
+    public ArrayList<Optional<Product>> getCarrinho() {
+        return carrinho;
+    }
 }

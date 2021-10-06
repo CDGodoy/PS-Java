@@ -2,6 +2,7 @@ package br.com.supera.gamestore.model.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "produtos")
@@ -21,7 +22,7 @@ public class Product {
 
     @Column(name = "prod_image")
     public String image;
-
+    
     public Product(){
 
     }

@@ -1,4 +1,4 @@
-package br.com.supera.gamestore.model;
+package br.com.supera.gamestore.model.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
     @Column(name = "prod_nome")
@@ -23,7 +22,12 @@ public class Product {
     @Column(name = "prod_image")
     public String image;
 
-    public Product(String name, BigDecimal price, short score, String image) {
+    public Product(){
+
+    }
+
+    public Product(Long id, String name, BigDecimal price, short score, String image) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.score = score;

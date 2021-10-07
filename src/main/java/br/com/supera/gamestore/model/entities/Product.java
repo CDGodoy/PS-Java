@@ -3,6 +3,7 @@ package br.com.supera.gamestore.model.entities;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Objects;
 
 @Entity
 @Table(name = "produtos")
@@ -73,5 +74,29 @@ public class Product {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", score=" + score +
+                ", image='" + image + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id && score == product.score && Objects.equals(name, product.name) && Objects.equals(price, product.price) && Objects.equals(image, product.image);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, score, image);
     }
 }

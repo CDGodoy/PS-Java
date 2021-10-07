@@ -46,23 +46,56 @@ public class ProductController {
     }
 
     @GetMapping(path="/{id}")
-    public Optional<Product> obterProdutoId(@PathVariable Long id){
-        return productRepository.findById(id);
+    public Product obterProdutoId(@PathVariable Long id){
+        return productRepository.findById(id).get();
     }
 
-    ArrayList<Optional<Product>> carrinho = new ArrayList<>();
+    ArrayList<Product> carrinho = new ArrayList<>();
 
     @PostMapping(path = "/add/{id}")
-    public Optional<Product> addCarrinho(@PathVariable Long id){
-        Optional<Product> produto = obterProdutoId(id);
+    public Product addCarrinho(@PathVariable Long id){
+        Product produto = obterProdutoId(id);
 
         carrinho.add(produto);
 
         return produto;
     }
 
-    @GetMapping(path = "carrinho")
-    public ArrayList<Optional<Product>> getCarrinho() {
+    /*
+    @PostMapping(path = "/delete/index/{index}")
+    public ArrayList<Optional<Product>> delItemIndex(@PathVariable Long index){
+        carrinho.remove(index);
         return carrinho;
     }
+     */
+
+    @PostMapping(path = "/delete/{id}")
+    public ArrayList<Product> delItemId(@PathVariable Long id){
+        Product produto = obterProdutoId(id);
+        carrinho.remove(produto);
+
+        System.out.println(produto.toString());
+
+        return carrinho;
+    }
+
+    @GetMapping(path = "/carrinho")
+    public ArrayList<Product> getCarrinho() {
+        return carrinho;
+    }
+
+    @GetMapping(path = "/precoCarrinho")
+    public String somar(){
+        BigDecimal precoTotal = new BigDecimal("0");
+        BigDecimal frete = new BigDecimal("0");
+        BigDecimal dez = new BigDecimal("10");
+        for (Product p:
+             carrinho) {
+            frete = frete.add(dez);
+            BigDecimal preco = new BigDecimal(String.valueOf(p.getPrice()));
+            precoTotal = precoTotal.add(preco);
+        }
+        return precoTotal.toString();
+    }
+
 }

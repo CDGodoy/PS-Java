@@ -1,25 +1,28 @@
 package br.com.supera.gamestore.controller;
 
+import br.com.supera.gamestore.model.entities.Checkout;
 import br.com.supera.gamestore.model.entities.Product;
 import br.com.supera.gamestore.model.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/produto")
+@RequestMapping
 public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
 
 
-    @PostMapping
+    @PostMapping(path = "/produto")
     public Product novoProduto(@RequestParam Long id,
                                @RequestParam String nome,
                                @RequestParam BigDecimal valor,
@@ -32,27 +35,32 @@ public class ProductController {
         return produto;
     }
 
-    @GetMapping
-    public Iterable<Product> obterProdutos(){
+    @GetMapping(path = "/produto")
+    public List<Product> obterProdutos(){
         return productRepository.findAll();
     }
 
-    @GetMapping(path = "/pagina/{page}")
-    public Iterable<Product> obterProdutosPorPagina(@PathVariable int page){
-        Pageable pagina = PageRequest.of(page,5);
+    @GetMapping(path = "/produto/sort/{ordem}")
+    public List<Product> obterProdutos(@PathVariable String ordem){
+        return productRepository.findAll(Sort.by(Sort.Direction.ASC,ordem));
+    }
+
+    @GetMapping(path = "/produto/pagina/{page}/{ordem}")
+    public Iterable<Product> obterProdutosPorPagina(@PathVariable String ordem, @PathVariable int page){
+        Pageable pagina = PageRequest.of(page,5, Sort.by(Sort.Direction.ASC,ordem));
 
         return productRepository.findAll(pagina);
 
     }
 
-    @GetMapping(path="/{id}")
+    @GetMapping(path="/produto/{id}")
     public Product obterProdutoId(@PathVariable Long id){
         return productRepository.findById(id).get();
     }
 
     ArrayList<Product> carrinho = new ArrayList<>();
 
-    @PostMapping(path = "/add/{id}")
+    @PostMapping(path = "produto/add/{id}")
     public Product addCarrinho(@PathVariable Long id){
         Product produto = obterProdutoId(id);
 
@@ -69,12 +77,10 @@ public class ProductController {
     }
      */
 
-    @PostMapping(path = "/delete/{id}")
+    @PostMapping(path = "/produto/delete/{id}")
     public ArrayList<Product> delItemId(@PathVariable Long id){
         Product produto = obterProdutoId(id);
         carrinho.remove(produto);
-
-        System.out.println(produto.toString());
 
         return carrinho;
     }
@@ -84,18 +90,33 @@ public class ProductController {
         return carrinho;
     }
 
-    @GetMapping(path = "/precoCarrinho")
-    public String somar(){
-        BigDecimal precoTotal = new BigDecimal("0");
+    @GetMapping(path = "/checkout")
+    public Checkout finalizarCompra(){
+
+
+        BigDecimal subTotal = new BigDecimal("0");
         BigDecimal frete = new BigDecimal("0");
         BigDecimal dez = new BigDecimal("10");
+        BigDecimal freeFrete = new BigDecimal("250");
+        BigDecimal total = new BigDecimal("0");
+
         for (Product p:
-             carrinho) {
+            carrinho){
             frete = frete.add(dez);
             BigDecimal preco = new BigDecimal(String.valueOf(p.getPrice()));
-            precoTotal = precoTotal.add(preco);
+            subTotal = subTotal.add(preco);
         }
-        return precoTotal.toString();
+
+        if (subTotal.compareTo(freeFrete) == 1){
+            frete = frete.multiply(new BigDecimal("0"));
+        }
+
+        total = subTotal.add(frete);
+
+        Checkout checkout = new Checkout(subTotal, frete, total);
+
+        return checkout;
+
     }
 
 }

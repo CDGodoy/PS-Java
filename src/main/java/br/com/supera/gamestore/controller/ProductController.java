@@ -1,19 +1,20 @@
 package br.com.supera.gamestore.controller;
 
+import br.com.supera.gamestore.DTO.ProductDTO;
+import br.com.supera.gamestore.DTO.ProductResponseDTO;
 import br.com.supera.gamestore.model.entities.Checkout;
 import br.com.supera.gamestore.model.entities.Product;
 import br.com.supera.gamestore.model.repositories.ProductRepository;
-import br.com.supera.gamestore.utils.RequestResponse;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,9 @@ public class ProductController {
         return produto;
     }*/
 
+    /*
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},produces = MediaType.APPLICATION_JSON_VALUE, path = "/produto")
-    public ResponseEntity<RequestResponse> novoProdutoJson(@RequestBody Product produto){
+    public ResponseEntity<RequestResponse> novoProdutoJson(@RequestBody @Valid Product produto){
 
         RequestResponse resposta = new RequestResponse();
 
@@ -57,6 +59,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resposta);
         }
 
+        /*
         if(produto.name.isEmpty()){
             resposta.setErro(true);
             resposta.setMensagem("Nome do produto é obrigatório");
@@ -81,14 +84,17 @@ public class ProductController {
         resposta.setErro(false);
         resposta.setMensagem("Produto inserido com sucesso!");
 
-        Product produtoInserido = new Product();
-
-        BeanUtils.copyProperties(produto, produtoInserido);
-
-        productRepository.save(produtoInserido);
+        productRepository.save(produto);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(resposta);
 
+    }
+    */
+
+    @PostMapping("/produto")
+    public ResponseEntity<ProductResponseDTO> salvarProduto(@RequestBody @Validated ProductDTO dto){
+        Product product = productRepository.save(dto.transformaParaObjeto());
+        return new ResponseEntity<>(ProductResponseDTO.transformaEmDTO(product), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/produto/sort/{ordem}")
@@ -106,6 +112,11 @@ public class ProductController {
 
     @GetMapping(path = "/produto/{id}")
     public Product obterProdutoId(@PathVariable Long id) {
+
+        if(!productRepository.existsById(id)){
+            return new Product();
+        }
+
         return productRepository.findById(id).get();
     }
 
@@ -146,19 +157,18 @@ public class ProductController {
 
         BigDecimal subTotal = new BigDecimal("0");
         BigDecimal frete = new BigDecimal("0");
-        BigDecimal dez = new BigDecimal("10");
         BigDecimal freeFrete = new BigDecimal("250");
-        BigDecimal total = new BigDecimal("0");
+        BigDecimal total;
 
         for (Product p:
                 carrinho) {
-            frete = frete.add(dez);
+            frete = frete.add(BigDecimal.TEN);
             BigDecimal preco = new BigDecimal(String.valueOf(p.getPrice()));
             subTotal = subTotal.add(preco);
         }
 
-        if (subTotal.compareTo(freeFrete) == 1) {
-            frete = frete.multiply(new BigDecimal("0"));
+        if (subTotal.compareTo(freeFrete) > 0) {
+            frete = frete.multiply(BigDecimal.ZERO);
         }
 
         total = subTotal.add(frete);

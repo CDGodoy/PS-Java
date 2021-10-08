@@ -1,80 +1,38 @@
 package br.com.supera.gamestore.model.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
 @Table(name = "produtos")
 public class Product {
 
     @Id
     public long id;
 
-    @Column(name = "prod_nome")
+    @Column(name = "prod_nome", nullable = false)
     public String name;
 
-    @Column(name = "prod_preco")
+    @Column(name = "prod_preco", nullable = false)
     public BigDecimal price;
 
-    @Column(name = "prod_score")
+    @Column(name = "prod_score", nullable = false)
     public short score;
 
-    @Column(name = "prod_image")
+    @Column(name = "prod_image", nullable = false)
     public String image;
-    
-    public Product(){
-
-    }
-
-    public Product(Long id, String name, BigDecimal price, short score, String image) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.score = score;
-        this.image = image;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public short getScore() {
-        return score;
-    }
-
-    public void setScore(short score) {
-        this.score = score;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     @Override
     public String toString() {

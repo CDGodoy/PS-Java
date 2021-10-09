@@ -1,0 +1,8 @@
+br.com.supera.gamestore
+br.com.supera.gamestore.controller
+br.com.supera.gamestore.DTO
+br.com.supera.gamestore.error
+br.com.supera.gamestore.model.entities
+br.com.supera.gamestore.model.repositories
+br.com.supera.gamestore.service
+br.com.supera.gamestore.store

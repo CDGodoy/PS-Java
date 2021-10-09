@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class productTest {
-
+/*
     Logger log;
 
     @Rule
@@ -78,5 +78,5 @@ public class productTest {
     }
 
 
-
+*/
 }

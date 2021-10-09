@@ -4,11 +4,14 @@ import br.com.supera.gamestore.model.entities.Product;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @Getter
 public class ProductResponseDTO {
 
@@ -26,6 +29,16 @@ public class ProductResponseDTO {
         return new ProductResponseDTO(product.getId(), product.getName(),
                                       product.getPrice(), product.getScore(),
                                       product.getImage());
+    }
+
+    public static List<ProductResponseDTO> transformaListEmDTO(List<Product> products){
+        List<ProductResponseDTO> dtos = new ArrayList<>();
+
+        for (Product product:
+             products) {
+            dtos.add(transformaEmDTO(product));
+        }
+        return dtos;
     }
 
 }

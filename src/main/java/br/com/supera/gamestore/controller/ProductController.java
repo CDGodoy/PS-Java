@@ -14,7 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
+import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,65 +32,6 @@ public class ProductController {
     public List < Product > obterProdutos() {
         return productRepository.findAll();
     }
-
-
-    /*
-    @PostMapping(path = "/produto")
-    public Product novoProduto(@RequestParam Long id,
-                               @RequestParam String nome,
-                               @RequestParam BigDecimal valor,
-                               @RequestParam short score,
-                               @RequestParam String imagem) {
-
-        Product produto = new Product(id, nome, valor, score, imagem);
-
-        productRepository.save(produto);
-        return produto;
-    }*/
-
-    /*
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},produces = MediaType.APPLICATION_JSON_VALUE, path = "/produto")
-    public ResponseEntity<RequestResponse> novoProdutoJson(@RequestBody @Valid Product produto){
-
-        RequestResponse resposta = new RequestResponse();
-
-        if(produto.id < 0l){
-            resposta.setErro(true);
-            resposta.setMensagem("O id do produto deve ser maior ou igual a zero");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resposta);
-        }
-
-        /*
-        if(produto.name.isEmpty()){
-            resposta.setErro(true);
-            resposta.setMensagem("Nome do produto é obrigatório");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resposta);
-        }
-        if(produto.price.toString().isEmpty() || produto.price.compareTo(BigDecimal.ZERO)<0){
-            resposta.setErro(true);
-            resposta.setMensagem("Preço do produto é obrigatório e deve ser maior ou igual a 0");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resposta);
-        }
-        if(produto.score < 0){
-            resposta.setErro(true);
-            resposta.setMensagem("O score do produto deve ser maior ou igual a zero");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resposta);
-        }
-        if(produto.image.isEmpty()){
-            resposta.setErro(true);
-            resposta.setMensagem("A imagem do produto é obrigatória");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resposta);
-        }
-
-        resposta.setErro(false);
-        resposta.setMensagem("Produto inserido com sucesso!");
-
-        productRepository.save(produto);
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(resposta);
-
-    }
-    */
 
     @PostMapping("/produto")
     public ResponseEntity<ProductResponseDTO> salvarProduto(@RequestBody @Validated ProductDTO dto){
@@ -131,15 +73,7 @@ public class ProductController {
         return produto;
     }
 
-    /*
-    @PostMapping(path = "/delete/index/{index}")
-    public ArrayList<Optional<Product>> delItemIndex(@PathVariable Long index){
-        carrinho.remove(index);
-        return carrinho;
-    }
-     */
-
-    @DeleteMapping(path = "/carrinho/delete/{id}")
+    @DeleteMapping(path = "/carrinho/{id}")
     public ArrayList < Product > delItemId(@PathVariable Long id) {
         Product produto = obterProdutoId(id);
         carrinho.remove(produto);
@@ -156,6 +90,7 @@ public class ProductController {
     public Checkout finalizarCompra() {
 
         BigDecimal subTotal = new BigDecimal("0");
+        @Digits(integer = 1, fraction = 2)
         BigDecimal frete = new BigDecimal("0");
         BigDecimal freeFrete = new BigDecimal("250");
         BigDecimal total;
@@ -163,8 +98,7 @@ public class ProductController {
         for (Product p:
                 carrinho) {
             frete = frete.add(BigDecimal.TEN);
-            BigDecimal preco = new BigDecimal(String.valueOf(p.getPrice()));
-            subTotal = subTotal.add(preco);
+            subTotal = subTotal.add(new BigDecimal(String.valueOf(p.getPrice())));
         }
 
         if (subTotal.compareTo(freeFrete) > 0) {

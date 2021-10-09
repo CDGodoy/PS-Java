@@ -7,11 +7,17 @@ public class Checkout {
     private BigDecimal subTotal;
     private BigDecimal frete;
     private BigDecimal total;
+    private boolean freteGratis;
 
-    public Checkout(BigDecimal subTotal, BigDecimal frete, BigDecimal total) {
+    public Checkout(BigDecimal subTotal, BigDecimal frete, BigDecimal total, boolean freteGratis) {
         this.subTotal = subTotal;
         this.frete = frete;
         this.total = total;
+        this.freteGratis = freteGratis;
+    }
+
+    public boolean getFreteGratis(){
+        return freteGratis;
     }
 
     public BigDecimal getSubTotal() {

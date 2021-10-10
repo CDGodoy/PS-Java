@@ -1,16 +1,21 @@
 
 
 # PS-Java
+<p align="center">
+<a href="##Descrição">Descrição</a>
+<a href="##Como utilizar a API">Como utilizar a API</a>
+<a href="##Autor">Autor</a>
+</p>
 ## Descrição
 <p align="center">Construção de uma camada de serviço de um pseudo ecommerce de games mobile utilizando Java</p>
 <p align="center">
 
 ## Como utilizar a API
 ### Na web
-Utilize este link(http://spring-test-supera.herokuapp.com/) no seu RESTClient (Postman, Insomia, etc...) e siga as instruções do tópico XXXXXX
+Utilize este link(http://spring-test-supera.herokuapp.com/) no seu RESTClient (Postman, Insomia, etc...) e siga as instruções do tópico <a href="###Rotas de uso">Rotas de uso</a>
 
 ### Na sua máquina
-Clone este repositório git e na raiz do projeto, execute o comando:  `java -jar game store`  e siga as instruções do tópico XXXXXX
+Clone este repositório git e na raiz do projeto, execute o comando:  `java -jar game store`  e siga as instruções do tópico <a href="###Rotas de uso">Rotas de uso</a>
 
 ### Rotas de uso
 
@@ -31,6 +36,8 @@ Clone este repositório git e na raiz do projeto, execute o comando:  `java -jar
  - Para obter os produtos por página, faça uma requisição GET para `/produto/pagina/{numeroPagina}?atributo=&itens=`. Por exemplo, para obter a 1° página de produtos, ordenado pelo nome com 5 itens por página: `/produto/pagina/0?atributo=name&itens=5`.
  - Para adicionar um produto ao carrinho, faça uma requisição POST para `/produto/add?id={id}`, substitua o {id} por um número.
  - Para remover um produto do carrinho, faça uma requisição DELETE para `/carrinho/delete/{id}`, substitua o {id} por um número.
+ - Para consultar os produtos no carrinho, faça uma requisição GET para `/carrinho`.
+ - Para acessar o checkout, faça uma requisição GET para `/checkout`
  
 
 ## Autor

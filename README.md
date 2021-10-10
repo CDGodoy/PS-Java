@@ -19,6 +19,8 @@ Utilize este link(http://spring-test-supera.herokuapp.com/) no seu RESTClient (P
 
 ### Na sua máquina
 Clone este repositório git e na raiz do projeto, execute o comando:  `java -jar game store`  e siga as instruções do tópico <a href="###Rotas de uso">Rotas de uso</a>
+Caso deseje gerar o .jar por conta própria: `mvn package`, e use o mesmo comando `java -jar ...` substituindo o '...' pelo nome do .jar gerado
+
 
 ### Rotas de uso
 

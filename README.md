@@ -20,8 +20,8 @@ O Framework springboot foi escolhido principalmente pela familiaridade que possu
 Utilize este link(http://spring-test-supera.herokuapp.com/) no seu RESTClient (Postman, Insomia, etc...) e siga as instruções do tópico <a href="###Rotas de uso">Rotas de uso</a>
 
 ### Na sua máquina
-Clone este repositório git e na raiz do projeto, execute o comando:  `java -jar game store`  e siga as instruções do tópico <a href="###Rotas de uso">Rotas de uso</a>
-Caso deseje gerar o .jar por conta própria: `mvn package`, e use o mesmo comando `java -jar ...` substituindo o '...' pelo nome do .jar gerado
+Clone este repositório git e na raiz do projeto, execute o comando:  `java -jar gameStore.jar`  e siga as instruções do tópico <a href="###Rotas de uso">Rotas de uso</a>
+Caso deseje gerar o .jar por conta própria: `mvn package`, e use o mesmo comando `java -jar ...` substituindo o '...' pelo nome do .jar gerado que estará na pasta "target"
 
 
 ### Rotas de uso

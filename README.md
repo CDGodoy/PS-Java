@@ -10,6 +10,9 @@
 <p align="center">Construção de uma camada de serviço de um pseudo ecommerce de games mobile utilizando Java</p>
 <p align="center">
 
+## Porque SpringBoot
+O Framework springboot foi escolhido principalmente pela familiaridade que possuo com o mesmo, escolhi estudar ele pois o mesmo é bastante completo, possui uma boa documentação e diversos guias e tutoriais existentes na internet, facilitando e muito o aprendizado.
+ 
 ## Como utilizar a API
 ### Na web
 Utilize este link(http://spring-test-supera.herokuapp.com/) no seu RESTClient (Postman, Insomia, etc...) e siga as instruções do tópico <a href="###Rotas de uso">Rotas de uso</a>

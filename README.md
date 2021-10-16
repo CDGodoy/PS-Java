@@ -6,6 +6,8 @@
 <a href="### Sobre os testes">Sobre os testes</a>
 </p>  
 
+<p>NOTA: Acabei me esquecendo de colocar um @DeleteMapping("/deletar/{id}") na linha 132 do ProductController.java. Como notei o erro após o prazo, não alterei o código, este </p>
+
 ## Descrição
 
 <p align="center">Construção de uma camada de serviço de um pseudo ecommerce de games mobile utilizando Java</p>  
